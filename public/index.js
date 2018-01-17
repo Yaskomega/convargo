@@ -167,17 +167,6 @@ console.log(deliveries);
 console.log("EXERCICE 2");
 
 deliveries.forEach(function(element) {
-	
-	//Getting the truckerId :
-	var truckerId = element.truckerId;
-	
-	// Searching for the corresponding trucker :
-	var trucker = truckers.find(function(element) {
-	  return element.id == truckerId;
-	});
-	
-	// Changing price :
-	element.price = trucker.pricePerKm * element.distance + trucker.pricePerVolume * element.volume;
 
 	if(element.volume > 25){// decreases by 50% after 25 m3
 		element.price = element.price * 0.5;
@@ -190,5 +179,24 @@ deliveries.forEach(function(element) {
 });
 console.log(deliveries);
 
+
+// EXERCICE 3 :
+console.log("EXERCICE 3");
+
+deliveries.forEach(function(element) {
+	
+	// Convargo take a 30% commission on the shipping price to cover their costs.
+	var commission = element.price * 0.3;
+
+	//insurance: half of commission
+	element.commission.insurance = commission / 2;
+	
+	// the Treasury: 1€ by 500km range
+	element.commission.treasury = parseInt(element.distance / 500);
+	
+	//convargo: the rest
+	element.commission.convargo = commission - (element.commission.insurance + element.commission.treasury);
+});
+console.log(deliveries);
 
 
