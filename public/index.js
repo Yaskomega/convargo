@@ -148,8 +148,10 @@ console.log(actors);
 // EXERCICE 1 :
 console.log("EXERCICE 1");
 deliveries.forEach(function(element) {
-	//console.log(element);
+	
+	//Getting the truckerId :
 	var truckerId = element.truckerId;
+	
 	// Searching for the corresponding trucker :
 	var trucker = truckers.find(function(element) {
 	  return element.id == truckerId;
@@ -159,3 +161,34 @@ deliveries.forEach(function(element) {
 	element.price = trucker.pricePerKm * element.distance + trucker.pricePerVolume * element.volume;
 });
 console.log(deliveries);
+
+
+// EXERCICE 2 :
+console.log("EXERCICE 2");
+
+deliveries.forEach(function(element) {
+	
+	//Getting the truckerId :
+	var truckerId = element.truckerId;
+	
+	// Searching for the corresponding trucker :
+	var trucker = truckers.find(function(element) {
+	  return element.id == truckerId;
+	});
+	
+	// Changing price :
+	element.price = trucker.pricePerKm * element.distance + trucker.pricePerVolume * element.volume;
+
+	if(element.volume > 25){// decreases by 50% after 25 m3
+		element.price = element.price * 0.5;
+	} else if(element.volume > 10){// decreases by 30% after 10 m3
+		element.price = element.price * 0.7;
+	}else if(element.volume > 5){// decreases by 10% after 5 m3
+		element.price = element.price * 0.9;
+	}
+
+});
+console.log(deliveries);
+
+
+
