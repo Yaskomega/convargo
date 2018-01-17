@@ -144,3 +144,18 @@ const actors = [{
 console.log(truckers);
 console.log(deliveries);
 console.log(actors);
+
+// EXERCICE 1 :
+console.log("EXERCICE 1");
+deliveries.forEach(function(element) {
+	//console.log(element);
+	var truckerId = element.truckerId;
+	// Searching for the corresponding trucker :
+	var trucker = truckers.find(function(element) {
+	  return element.id == truckerId;
+	});
+	
+	// Changing price :
+	element.price = trucker.pricePerKm * element.distance + trucker.pricePerVolume * element.volume;
+});
+console.log(deliveries);
