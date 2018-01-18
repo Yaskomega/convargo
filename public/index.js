@@ -183,10 +183,11 @@ console.log(deliveries);
 // EXERCICE 3 :
 console.log("EXERCICE 3");
 
+var commission_percentage = 0.3;
 deliveries.forEach(function(element) {
 	
 	// Convargo take a 30% commission on the shipping price to cover their costs.
-	var commission = element.price * 0.3;
+	var commission = element.price * commission_percentage;
 
 	//insurance: half of commission
 	element.commission.insurance = commission / 2;
@@ -199,4 +200,63 @@ deliveries.forEach(function(element) {
 });
 console.log(deliveries);
 
+
+// EXERCICE 4 :
+console.log("EXERCICE 4");
+
+deliveries.forEach(function(element) {
+	// if the shipper subscribed to deductible option :
+	if(element.options.deductibleReduction){
+		// calculating the additional charge :
+		var charge  = element.volume;
+		element.commission.convargo = element.commission.convargo + charge;
+	} 
+});
+console.log(deliveries);
+
+
+
+// EXERCICE 5 :
+console.log("EXERCICE 5");
+
+actors.forEach(function(element) {
+
+	//Getting the deliveryId or rentalId :
+	var deliveryId = element.deliveryId;
+	var rentalId = element.rentalId;
+	
+	// Searching for the corresponding delivery :
+	var delivery = deliveries.find(function(element) {
+	  return element.id == deliveryId || element.id == rentalId;
+	});
+	console.log(element);
+	console.log(delivery);
+	
+    //the shipper must pay the shipping price and the (optional) deductible reduction
+	element.payment.find(function(element) {
+	  return element.who == "shipper";
+	}).amount = delivery.price + delivery.volume;
+	
+    //the trucker receives the shipping price minus the commission
+	element.payment.find(function(element) {
+	  return element.who == "owner";
+	}).amount = delivery.price * commission_percentage;
+	
+    //the insurance receives its part of the commission
+	element.payment.find(function(element) {
+	  return element.who == "insurance";
+	}).amount = delivery.commission.insurance;
+	
+    //the Treasury receives its part of the tax commission
+	element.payment.find(function(element) {
+	  return element.who == "treasury";
+	}).amount = delivery.commission.treasury;
+	
+    //convargo receives its part of the commission, plus the deductible reduction
+	element.payment.find(function(element) {
+	  return element.who == "convargo";
+	}).amount = delivery.commission.convargo;
+
+});
+console.log(actors);
 
